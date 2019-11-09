@@ -1,4 +1,22 @@
 body {
-    padding-left: 10%;
-    padding-right: 10%;
+    height: 100vh;
+}
+
+.container {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+html {
+    height: 100vh;
+}
+
+.full-len {
+    height: 85vh;
+}
+
+.message-box {
+    position: absolute;
+    bottom: 3%;
+    width: 96%;
 }
