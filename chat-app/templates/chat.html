@@ -9,26 +9,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 	<body>
-		
-		<div id = "myModal" data-backdrop="static"  class="modal">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-
-						<h4 id = "enterUsernameTitle" class="modal-title">Enter Username:</h4>
-					</div>
-					<div class="modal-body">
-						<input autofocus type = "text" id = "username">
-					</div>
-					<div class="modal-footer">
-						<button id = "startBtn" type="button" class="btn btn-primary" data-dismiss="modal">Start Chatting</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		
 		<h2 id = "title">Chat!</h2>
-		<h3 id = "usersConn">Users Connected: 0</h3>
 		<div id = "messagesBox">
 			<div id = "messages"></div>
 		</div>
@@ -48,8 +29,13 @@
 				return Math.floor(Math.random() * (max - min + 1)) + min;
 			}
 			
+			$.urlParam = function(name){
+				var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+				return results[1] || 0;
+			}
+			
 			window.onload = function(){
-				$("#myModal").modal("show")
+				$("#myModal").modal("show");
 			}
 			
 			var colorList = ["red", "blue", "green", "purple"]
@@ -58,18 +44,39 @@
 						
 			var socket = io();
 			
+			var username;
+			var countryCode;
+			var country;
+			
+			var langDict = {
+				"US": "english",
+				"CN": "chinese",
+				"RU": "russian",
+			};
+			
 			//Sends that the user has connected
 			socket.on('connect', function(){
-				//This loads up the beginning modal to get your username
-				document.getElementById("startBtn").addEventListener('click', function(){
-					username = document.getElementById("username").value
-					if (username == ""){
-						username = "User"
-					}
-					
-					socket.emit('notification', username + ' has connected')
-					socket.emit('userData', {username: username})
-				})		
+				//This loads up the beginning modal to get your username				
+				username = $.urlParam('name');
+				countryCode = $.urlParam('countryCode');
+				country = $.urlParam('country');
+				
+				
+				if (username == ""){
+					username = "User";
+				}
+				if (language == ""){
+					language = "english";
+				}
+				if (country == ""){
+					country = "United States";
+				}
+				
+				
+				
+				
+				socket.emit('notification', username + ' from ' + country + ' has connected');
+				socket.emit('userData', {username: username});
 			})
 			
 			//Keeps the messages always scrolled to the bottom when there is a new message
@@ -101,10 +108,6 @@
 			
 			//Gets the amount of users connected
 			socket.on('usersOn', function(usersOn){
-				var usersConn = document.getElementById("usersConn").innerHTML.split(": ")
-				usersConn[1] = usersOn
-				usersConn = usersConn.join(": ")
-				document.getElementById("usersConn").innerHTML = usersConn
 			})
 			
 			//Sends a notification that a user has disconnected

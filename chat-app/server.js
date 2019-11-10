@@ -14,33 +14,38 @@ io.set('heartbeat timeout', 5000);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/chat', function(req, res){
+	res.sendFile(__dirname + '/templates/chat.html');
+});
+
+
 app.get('/', function(req, res){
-	res.sendFile(__dirname + '/index.html')
-})
+	res.sendFile(__dirname + '/templates/home.html');
+});
 
 io.on('connection', function(socket){
 	
-	usersOn = socket.conn.server.clientsCount
-	io.emit('usersOn', usersOn)
+	usersOn = socket.conn.server.clientsCount;
+	io.emit('usersOn', usersOn);
 		
 	socket.on('userData', function(userData){
-		socket.username = userData.username
+		socket.username = userData.username;
 	})
 	
 	socket.on('chat message', function(msg){
-		io.emit('chat message', msg)
+		io.emit('chat message', msg);
 	})
 	
 	socket.on('notification', function(notification){
-		io.emit('notification', notification)
-	})
+		io.emit('notification', notification);
+	});
 	
 	socket.on('disconnect', function(){
-		usersOn -= 1
-		io.emit('usersOn', usersOn)
-		io.emit('notification', socket.username + " has disconnected.")
-	})
-})
+		usersOn -= 1;
+		io.emit('usersOn', usersOn);
+		io.emit('notification', socket.username + " has disconnected.");
+	});
+});
 
 //Server configuration stuff
 
