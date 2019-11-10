@@ -1,0 +1,50 @@
+<html>
+	<head>
+		<title>Chat!</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="stylesheet" type="text/css" href="normalize.css">
+		<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body>
+		Home
+		<br />
+		<input id = "username" placeholder = "Enter a username" type = "text" />
+		<br />
+		<button id = "submitBtn">Go to Chat</button>
+		<script
+		  src="https://code.jquery.com/jquery-3.4.1.js"
+		  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+		  crossorigin="anonymous"></script>
+		<script>
+		
+			var country = "chinese";
+			var countryCode = "CN";
+			var desiredCountry = "RU";
+		
+			function ipLookUp () {
+			  $.ajax('http://ip-api.com/json');
+			  .then(
+				  function success(response) {
+					  //console.log('User\'s Location Data is ', response);
+					  //console.log('User\'s Country', response.country);
+					  country = response.country;
+					  countryCode = response.countryCode;
+					  					  
+					  $("#submitBtn").click(function() {
+							window.location.href = "/chat?name=" + $("#username").val() + "&desiredCountry=" + desiredCountry + "&countCode=" + countryCode + "&country=" + country;
+						});
+				  },
+
+				  function fail(data, status) {
+					  //console.log('Request failed.  Returned status of', status);
+					  return "US";
+				  }
+			  );
+			}
+			ipLookUp();
+		</script>
+	</body>
+</html>
