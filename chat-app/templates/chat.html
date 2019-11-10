@@ -53,6 +53,7 @@
 			var friendName;
 			var sendLang;
 			var receiveLang;
+			var homeCountry;
 
 			//Sends that the user has connected
 			socket.on('connect', function(){
@@ -61,12 +62,13 @@
 				// TODO add in functionality to get other persons name when they connect
 				sendLang = $.urlParam('sendLang');
 				receiveLang = $.urlParam('receiveLang');
+				homeCountry = ($.urlParam('homeCountry')).replace(/%20/g, " ");
 
 				if (username == ""){
 					username = "Me";
 				}
 
-				socket.emit('notification', username + ' from ' + receiveLang + ' has connected');
+				socket.emit('notification', username + ' from ' + homeCountry + ' has joined');
 				socket.emit('userData', {username: username});
 			});
 
@@ -87,7 +89,10 @@
 
 			//Creates notification in the messages box
 			socket.on('notification', function(notification){
-
+				if (!$("#friendName").text().includes("joined")) {
+					$("#friendName").text(notification);
+					socket.emit('notification', username + ' from ' + homeCountry + ' has joined');
+				}
 			})
 
 			//Creates message in the messages box
@@ -106,9 +111,6 @@
 					message.innerHTML = msg.message;
 				} else {
 					messageCont.setAttribute("class", "pull-left incomingMsgCont");
-					var temp = sendLang;
-					sendLang = receiveLang;
-					receiveLang = temp;
 
 					console.log("sendLang: " + sendLang);
 					console.log("receiveLang: " + receiveLang);
@@ -117,7 +119,7 @@
 					$.get(apiLink, function(apiRes) {
 						message.innerHTML = apiRes.matches[0].translation;
 						console.log(apiRes.matches[0].translation);
-					})
+					});
 				}
 				message.setAttribute("class", "message");
 

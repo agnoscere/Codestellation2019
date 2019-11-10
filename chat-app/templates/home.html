@@ -539,32 +539,20 @@
 		  crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		<script>
-
-		// $("select.sendLang").change(function() {
-		// 	sendLang = $(this).children("option:selected").val();
-		// });
-		//
-		// $(document).on('change', '.sendLang', function(e) {
-		// 	var sendLang = $("#sendLang :selected").val();
-		// });
-		//
-		// $(document).on('change', '.receiveLang', function(e) {
-		// 	var receiveLang = $("#receiveLang :selected").val();
-		// });
-
-		// $("select.sendLang").change(function() {
-		// 	receiveLang = $(this).children("option:selected").val();
-		// })
-
 			function ipLookUp () {
 			  $.ajax('http://ip-api.com/json').then(
 				  function success(response) {
 					  $("#submitBtn").click(function() {
 							var sendLang = $("#sendLang :selected").val();
 							var receiveLang = $("#receiveLang :selected").val();
+							var temp = sendLang;
+							sendLang = receiveLang;
+							receiveLang = temp;
+							var homeCountry = $("#sendLang :selected").text();
+;
 							console.log(sendLang);
 							console.log(receiveLang);
-							window.location.href = "/chat?name=" + $("#username").val() + "&sendLang=" + sendLang + "&receiveLang=" + receiveLang;
+							window.location.href = "/chat?name=" + $("#username").val() + "&homeCountry=" + homeCountry + "&sendLang=" + sendLang + "&receiveLang=" + receiveLang;
 						});
 				  },
 
