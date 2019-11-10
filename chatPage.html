@@ -8,12 +8,13 @@
         <link href="chatPage.css" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script src="showText.js"></script>
     </head>
     <body>
-        <div class="panel panel-default text-center col-lg-4 hidden-sm hidden-xs">
+        <div class="panel panel-default text-center col-lg-4 hidden-sm hidden-xs hidden-md header">
             <h1>Messages</h1>
         </div>
-        <div class="panel panel-default text-center col-lg-8 col-sm-12">
+        <div class="panel panel-default text-center col-lg-8 col-sm-12 header">
             <h1>Name</h1>
         </div>
 
@@ -23,11 +24,10 @@
                     <h3>Messages</h3>
                     <p>Lorem ipsum dolor..</p>
                 </div>
-                <div class="col-sm-12 col-md-8 col-lg-8 text-center well full-len">
-                    <div class="text-output">
-
+                <div class="col-sm-12 col-md-12 col-lg-8 text-center well full-len">
+                    <div id="text-output" class="text-right">
                     </div>
-                    <input type="text" class="form-control message-box" placeholder="Text goes here..."/>
+                    <input type="text" class="form-control" id="message-box" placeholder="Text goes here..." onkeypress="pressedEnter(this)"/>
                 </div>
             </div>
         </div>
