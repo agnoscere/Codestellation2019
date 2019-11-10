@@ -90,7 +90,9 @@
 			//Creates notification in the messages box
 			socket.on('notification', function(notification){
 				if (!$("#friendName").text().includes("joined")) {
-					$("#friendName").text(notification);
+					if (!(notification).includes(username)) {
+						$("#friendName").text(notification);
+					}
 					socket.emit('notification', username + ' from ' + homeCountry + ' has joined');
 				}
 			})
