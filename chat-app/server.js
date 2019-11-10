@@ -3,7 +3,7 @@ var app = express()
 var path = require('path')
 var http = require('http').Server(app)
 var io = require('socket.io')(http)
-var port = 6969
+var port = 8080
 /////////////////////////////////////////////////////////////////
 //This fixed the issue with long disconnecting times in browsers
 //The interval checks if player is connected every 1 seconds
