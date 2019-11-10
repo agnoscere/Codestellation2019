@@ -26,8 +26,10 @@
             <input id = "username" type="text" class="form-control" id=""><br>
 						Where are you from?<br>
             <select class="form-control sendLang" id="sendLang">
-								<option value="en">United States</option>
-                <option value="AF">Afghanistan</option>
+								<option value="EN">United States</option>
+								<option value="IT">Italy</option>
+								<option value="ES">Spain</option>
+							  <option value="AF">Afghanistan</option>
                 <option value="AX">Åland Islands</option>
                 <option value="AL">Albania</option>
                 <option value="DZ">Algeria</option>
@@ -235,7 +237,6 @@
                 <option value="ZA">South Africa</option>
                 <option value="GS">South Georgia and the South Sandwich Islands</option>
                 <option value="SS">South Sudan</option>
-                <option value="es">Spain</option>
                 <option value="LK">Sri Lanka</option>
                 <option value="SD">Sudan</option>
                 <option value="SR">Suriname</option>
@@ -262,7 +263,6 @@
                 <option value="UA">Ukraine</option>
                 <option value="AE">United Arab Emirates</option>
                 <option value="GB">United Kingdom</option>
-                <option value="UM">United States Minor Outlying Islands</option>
                 <option value="UY">Uruguay</option>
                 <option value="UZ">Uzbekistan</option>
                 <option value="VU">Vanuatu</option>
@@ -278,8 +278,10 @@
             </select><br>
             Where do you want to go?<br>
             <select class="form-control receiveLang" id="receiveLang">
-								<option value="it">Italy</option>
-                <option value="AF">Afghanistan</option>
+								<option value="EN">United States</option>
+								<option value="IT">Italy</option>
+								<option value="ES">Spain</option>
+								<option value="AF">Afghanistan</option>
                 <option value="AX">Åland Islands</option>
                 <option value="AL">Albania</option>
                 <option value="DZ">Algeria</option>
@@ -487,7 +489,6 @@
                 <option value="ZA">South Africa</option>
                 <option value="GS">South Georgia and the South Sandwich Islands</option>
                 <option value="SS">South Sudan</option>
-                <option value="es">Spain</option>
                 <option value="LK">Sri Lanka</option>
                 <option value="SD">Sudan</option>
                 <option value="SR">Suriname</option>
@@ -514,8 +515,6 @@
                 <option value="UA">Ukraine</option>
                 <option value="AE">United Arab Emirates</option>
                 <option value="GB">United Kingdom</option>
-                <option value="en">United States</option>
-                <option value="UM">United States Minor Outlying Islands</option>
                 <option value="UY">Uruguay</option>
                 <option value="UZ">Uzbekistan</option>
                 <option value="VU">Vanuatu</option>
@@ -541,21 +540,17 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		<script>
 
-		var sendLang = $(this).children("option:selected").val();
-		var receiveLang = $(this).children("option:selected").val();
-
 		// $("select.sendLang").change(function() {
 		// 	sendLang = $(this).children("option:selected").val();
 		// });
-
-		$(document).on('change', '.sendLang', function(e) {
-
-			console.log("55555: " + $("#sendLang :selected").text());
-		});
-
-		$(document).on('change', '.receiveLang', function(e) {
-						console.log("77777: " + $("#receiveLang :selected").text());
-		});
+		//
+		// $(document).on('change', '.sendLang', function(e) {
+		// 	var sendLang = $("#sendLang :selected").val();
+		// });
+		//
+		// $(document).on('change', '.receiveLang', function(e) {
+		// 	var receiveLang = $("#receiveLang :selected").val();
+		// });
 
 		// $("select.sendLang").change(function() {
 		// 	receiveLang = $(this).children("option:selected").val();
@@ -565,6 +560,8 @@
 			  $.ajax('http://ip-api.com/json').then(
 				  function success(response) {
 					  $("#submitBtn").click(function() {
+							var sendLang = $("#sendLang :selected").val();
+							var receiveLang = $("#receiveLang :selected").val();
 							console.log(sendLang);
 							console.log(receiveLang);
 							window.location.href = "/chat?name=" + $("#username").val() + "&sendLang=" + sendLang + "&receiveLang=" + receiveLang;
