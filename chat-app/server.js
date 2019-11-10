@@ -3,7 +3,7 @@ var app = express()
 var path = require('path')
 var http = require('http').Server(app)
 var io = require('socket.io')(http)
-
+var port = 6969
 /////////////////////////////////////////////////////////////////
 //This fixed the issue with long disconnecting times in browsers
 //The interval checks if player is connected every 1 seconds
@@ -11,6 +11,12 @@ var io = require('socket.io')(http)
 /////////////////////////////////////////////////////////////////
 io.set('heartbeat interval', 1000);
 io.set('heartbeat timeout', 5000);
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -54,10 +60,10 @@ var ipaddress = process.env.PORT || "127.0.0.1";
 
 //Same as above, but with port
 //If you want to load on localhost onto a different port, change 4000 to whatever port you please
-var port = process.env.PORT || 50005;
+var port = process.env.PORT || port;
 
 http.listen(port, ipaddress, function(){
-	console.log('Running on 127.0.0.1:50005')
+	console.log('Running on 127.0.0.1:port')
 })
 
 var express = require('express')
@@ -119,8 +125,8 @@ var ipaddress = process.env.PORT || "127.0.0.1";
 
 //Same as above, but with port
 //If you want to load on localhost onto a different port, change 4000 to whatever port you please
-var port = process.env.PORT || 50005;
+var port = process.env.PORT || port;
 
 http.listen(port, ipaddress, function(){
-	console.log('Running on 127.0.0.1:50005')
+	console.log('Running on 127.0.0.1:port')
 })
