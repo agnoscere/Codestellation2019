@@ -53,12 +53,6 @@
 			var countryCode;
 			var country;
 
-			var langDict = {
-				"US": "english",
-				"CN": "chinese",
-				"RU": "russian",
-			};
-
 			//Sends that the user has connected
 			socket.on('connect', function(){
 				//This loads up the beginning modal to get your username
@@ -108,15 +102,18 @@
 
 				if (username == msg.username) {
 					messageCont.setAttribute("class", "messageCont");
-					message.setAttribute("class", "message");
+					message.innerHTML = msg.message;
 				} else {
 					messageCont.setAttribute("class", "incomingMsgCont");
-					message.setAttribute("class", "message");
+					$.get('https://api.mymemory.translated.net/get?q=' + msg.message + '!&langpair=en|ru', function(apiRes) {
+						message.innerHTML = apiRes.matches[0].translation;
+						console.log(apiRes.matches[0].translation);
+					})
 				}
+				message.setAttribute("class", "message");
 
 
 
-				message.innerHTML = msg.message;
 				messageCont.append(message);
 
 				outputBox.append(messageCont);
