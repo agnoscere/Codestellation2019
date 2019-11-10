@@ -1,0 +1,47 @@
+body {
+    height: 100vh;
+}
+
+html {
+    height: 100vh;
+}
+
+.full-len {
+    height: 85vh;
+}
+
+#text-output {
+    height: 72vh;
+    overflow: auto;
+    padding: 10px;
+}
+
+#message-box {
+    position: absolute;
+    bottom: 3%;
+    width: 96%;
+}
+
+@media screen and (max-width: 992px) {
+ #message-box {
+    width: 91%;
+  }
+}
+
+.header {
+    margin: 0px;
+}
+
+.messageCont {
+    background-color: #ffae19;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 5px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.message {
+    font-size: 20px;
+    color: white;
+}

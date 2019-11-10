@@ -1,13 +1,12 @@
 function pressedEnter() {
     if (event.keyCode == 13){
+        console.log("1");
 		event.preventDefault()
-		if (document.getElementById("message-box").value.split(" ").join("") != "") {
-			displayMessage();
-		}
+		sendMessage()
 	}
 }
 
-function displayMessage() {
+function sendMessage() {
     if (document.getElementById("message-box").value.split(" ").join("") != "") {
         var outputBox = document.getElementById("text-output");
         var messageCont = document.createElement("div");

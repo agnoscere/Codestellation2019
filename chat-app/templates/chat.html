@@ -1,15 +1,36 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
-		<title>Chat!</title>
-		<link rel="stylesheet" type="text/css" href="style.css">
-		<link rel="stylesheet" type="text/css" href="normalize.css">
-		<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-		
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Chat</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <link href="chatPage.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script src="showText.js"></script>
 	</head>
 	<body>
-		<h2 id = "title">Chat!</h2>
+		<div class="panel panel-default text-center col-lg-4 hidden-sm hidden-xs hidden-md header">
+            <h1>Messages</h1>
+        </div>
+        <div class="panel panel-default text-center col-lg-8 col-sm-12 header">
+            <h1>Name</h1>
+        </div>
+		<div class="container-fluid">
+            <div class="row h-100">
+                <div class="col-lg-4 text-center hidden-md hidden-sm hidden-xs well full-len">
+                    <h3>Messages</h3>
+                    <p>Lorem ipsum dolor..</p>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 text-center well full-len">
+                    <div id="text-output" class="text-right">
+                    </div>
+                    <input type="text" class="form-control" id="message-box" placeholder="Text goes here..." onkeypress="pressedEnter(this)"/>
+                </div>
+            </div>
+        </div>
+		<!--
 		<div id = "messagesBox">
 			<div id = "messages"></div>
 		</div>
@@ -20,10 +41,12 @@
 			</div>
 			<button class = "btn btn-primary" id = "submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 		</div>
+		-->
 		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
+		<script src="showText.js"></script>
 		<script>
 			function getRandomInt(min, max){
 				return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -31,17 +54,11 @@
 			
 			$.urlParam = function(name){
 				var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+				console.log(name);
+				
 				return results[1] || 0;
 			}
-			
-			window.onload = function(){
-				$("#myModal").modal("show");
-			}
-			
-			var colorList = ["red", "blue", "green", "purple"]
-			
-			var color = colorList[getRandomInt(0, colorList.length -1)]
-						
+												
 			var socket = io();
 			
 			var username;
@@ -58,53 +75,26 @@
 			socket.on('connect', function(){
 				//This loads up the beginning modal to get your username				
 				username = $.urlParam('name');
-				countryCode = $.urlParam('countryCode');
+				countryCode = $.urlParam('countCode');
 				country = $.urlParam('country');
 				
 				
 				if (username == ""){
 					username = "User";
 				}
-				if (language == ""){
-					language = "english";
-				}
 				if (country == ""){
 					country = "United States";
 				}
 				
-				
-				
-				
 				socket.emit('notification', username + ' from ' + country + ' has connected');
 				socket.emit('userData', {username: username});
-			})
-			
-			//Keeps the messages always scrolled to the bottom when there is a new message
-			function updateScroll(){
-				var element = document.getElementById("messagesBox");
-				element.scrollTop = element.scrollHeight;
-			}
-			
+			});
 			
 			function sendMessage(){
-				if (document.getElementById("message").value != ""){
-					socket.emit('chat message', {color: color, username: username, message: document.getElementById("message").value})
-					document.getElementById("message").value = ""
+				if ($("#message-box").is(":empty")){
+					socket.emit('chat message', {color: "null", username: username, message: $("#message-box").val()});
 				}
 			}
-			
-			//Submits the message when enter key is pressed
-			function enterMessage(key){
-				if (event.keyCode == 13){
-					event.preventDefault()
-					sendMessage()
-				}
-			}
-			
-			//Submits the message when submit button is pressed
-			document.getElementById("submit").addEventListener('click', function(){
-				sendMessage()
-			})
 			
 			//Gets the amount of users connected
 			socket.on('usersOn', function(usersOn){
@@ -112,45 +102,43 @@
 			
 			//Sends a notification that a user has disconnected
 			socket.on('disconnect', function(){
-				socket.emit('notification', username + ' has disconnected')
-			})
+				socket.emit('notification', username + ' has disconnected');
+			});
 			
 			//Creates notification in the messages box
 			socket.on('notification', function(notification){
-				var container = document.createElement("div")
+				/*
+				var messageCont = document.createElement("div");
+				var message = document.createElement("p");
+
+				messageCont.setAttribute("class", "messageCont");
+				message.setAttribute("class", "message");
+
+				message.innerHTML = notification;
+				messageCont.append(message);
 				
-				var notificationText = document.createTextNode(notification)
-				
-				container.appendChild(notificationText)
-				container.setAttribute("class", "notification container")
-				
-				document.getElementById("messages").appendChild(container)
+				var notificationText = document.createTextNode(notification);
+				document.getElementById("text-output").appendChild(messageCont);
+				*/
 			})
 			
 			//Creates message in the messages box
 			socket.on('chat message', function(msg){
-				var container = document.createElement("div")
-				var newMessage = document.createElement("div")
-				var newUsername = document.createElement("div")
-				
-				var messageText = document.createTextNode(msg.message)
-				var usernameText = document.createTextNode(msg.username)
-				
-				newMessage.appendChild(messageText)
-				newUsername.appendChild(usernameText)
-				
-				container.appendChild(newUsername)
-				container.appendChild(newMessage)
-				
-				newUsername.setAttribute("class", "username")
-				newMessage.setAttribute("class", "message")
-				container.setAttribute("class", "container")
-				
-				newUsername.style.color = msg.color
-				
-				document.getElementById("messages").appendChild(container)
-				
-				updateScroll()
+				var outputBox = document.getElementById("text-output");
+				var messageCont = document.createElement("div");
+				var message = document.createElement("p");
+
+				messageCont.setAttribute("class", "messageCont");
+				message.setAttribute("class", "message");
+
+				message.innerHTML = msg.message;
+				messageCont.append(message);
+
+				outputBox.append(messageCont);
+				outputBox.append(document.createElement("br"));
+				document.getElementById("message-box").value = "";
+
+				outputBox.scrollTop = outputBox.scrollHeight;
 			})
 		</script>
 	</body>
