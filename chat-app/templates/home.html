@@ -25,7 +25,8 @@
             What's your name?<br>
             <input id = "username" type="text" class="form-control" id=""><br>
 						Where are you from?<br>
-            <select class="form-control" id="sendLang">
+            <select class="form-control sendLang" id="sendLang">
+								<option value="en">United States</option>
                 <option value="AF">Afghanistan</option>
                 <option value="AX">Åland Islands</option>
                 <option value="AL">Albania</option>
@@ -135,7 +136,7 @@
                 <option value="IE">Ireland</option>
                 <option value="IM">Isle of Man</option>
                 <option value="IL">Israel</option>
-                <option value="IT">Italy</option>
+                <option value="it">Italy</option>
                 <option value="JM">Jamaica</option>
                 <option value="JP">Japan</option>
                 <option value="JE">Jersey</option>
@@ -208,7 +209,7 @@
                 <option value="QA">Qatar</option>
                 <option value="RE">Réunion</option>
                 <option value="RO">Romania</option>
-                <option value="RU">Russian Federation</option>
+                <option value="ru">Russian Federation</option>
                 <option value="RW">Rwanda</option>
                 <option value="BL">Saint Barthélemy</option>
                 <option value="SH">Saint Helena, Ascension and Tristan da Cunha</option>
@@ -234,7 +235,7 @@
                 <option value="ZA">South Africa</option>
                 <option value="GS">South Georgia and the South Sandwich Islands</option>
                 <option value="SS">South Sudan</option>
-                <option value="ES">Spain</option>
+                <option value="es">Spain</option>
                 <option value="LK">Sri Lanka</option>
                 <option value="SD">Sudan</option>
                 <option value="SR">Suriname</option>
@@ -261,7 +262,6 @@
                 <option value="UA">Ukraine</option>
                 <option value="AE">United Arab Emirates</option>
                 <option value="GB">United Kingdom</option>
-                <option value="US">United States</option>
                 <option value="UM">United States Minor Outlying Islands</option>
                 <option value="UY">Uruguay</option>
                 <option value="UZ">Uzbekistan</option>
@@ -277,7 +277,8 @@
                 <option value="ZW">Zimbabwe</option>
             </select><br>
             Where do you want to go?<br>
-            <select class="form-control" id="receiveLang">
+            <select class="form-control receiveLang" id="receiveLang">
+								<option value="it">Italy</option>
                 <option value="AF">Afghanistan</option>
                 <option value="AX">Åland Islands</option>
                 <option value="AL">Albania</option>
@@ -387,7 +388,7 @@
                 <option value="IE">Ireland</option>
                 <option value="IM">Isle of Man</option>
                 <option value="IL">Israel</option>
-                <option value="IT">Italy</option>
+                <option value="it">Italy</option>
                 <option value="JM">Jamaica</option>
                 <option value="JP">Japan</option>
                 <option value="JE">Jersey</option>
@@ -460,7 +461,7 @@
                 <option value="QA">Qatar</option>
                 <option value="RE">Réunion</option>
                 <option value="RO">Romania</option>
-                <option value="RU">Russian Federation</option>
+                <option value="ru">Russian Federation</option>
                 <option value="RW">Rwanda</option>
                 <option value="BL">Saint Barthélemy</option>
                 <option value="SH">Saint Helena, Ascension and Tristan da Cunha</option>
@@ -486,7 +487,7 @@
                 <option value="ZA">South Africa</option>
                 <option value="GS">South Georgia and the South Sandwich Islands</option>
                 <option value="SS">South Sudan</option>
-                <option value="ES">Spain</option>
+                <option value="es">Spain</option>
                 <option value="LK">Sri Lanka</option>
                 <option value="SD">Sudan</option>
                 <option value="SR">Suriname</option>
@@ -513,7 +514,7 @@
                 <option value="UA">Ukraine</option>
                 <option value="AE">United Arab Emirates</option>
                 <option value="GB">United Kingdom</option>
-                <option value="US">United States</option>
+                <option value="en">United States</option>
                 <option value="UM">United States Minor Outlying Islands</option>
                 <option value="UY">Uruguay</option>
                 <option value="UZ">Uzbekistan</option>
@@ -540,20 +541,33 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		<script>
 
-			var country = "chinese";
-			var countryCode = "CN";
-			var desiredCountry = "RU";
+		var sendLang = $(this).children("option:selected").val();
+		var receiveLang = $(this).children("option:selected").val();
+
+		// $("select.sendLang").change(function() {
+		// 	sendLang = $(this).children("option:selected").val();
+		// });
+
+		$(document).on('change', '.sendLang', function(e) {
+
+			console.log("55555: " + $("#sendLang :selected").text());
+		});
+
+		$(document).on('change', '.receiveLang', function(e) {
+						console.log("77777: " + $("#receiveLang :selected").text());
+		});
+
+		// $("select.sendLang").change(function() {
+		// 	receiveLang = $(this).children("option:selected").val();
+		// })
 
 			function ipLookUp () {
 			  $.ajax('http://ip-api.com/json').then(
 				  function success(response) {
-					  //console.log('User\'s Location Data is ', response);
-					  //console.log('User\'s Country', response.country);
-					  country = response.country;
-					  countryCode = response.countryCode;
-
 					  $("#submitBtn").click(function() {
-							window.location.href = "/chat?name=" + $("#username").val() + "&desiredCountry=" + desiredCountry + "&countCode=" + countryCode + "&country=" + country;
+							console.log(sendLang);
+							console.log(receiveLang);
+							//window.location.href = "/chat?name=" + $("#username").val() + "&sendLang=" + sendLang + "&receiveLang=" + receiveLang;
 						});
 				  },
 

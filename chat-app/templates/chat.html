@@ -15,7 +15,7 @@
             <h1>Messages</h1>
         </div>
         <div class="panel panel-default text-center col-lg-8 col-sm-12 header">
-            <h1>Name</h1>
+            <h1 id="friendName">Finding a friend...</h1>
         </div>
 		<div class="container-fluid">
             <div class="row h-100">
@@ -50,25 +50,23 @@
 			var socket = io();
 
 			var username;
-			var countryCode;
-			var country;
+			var friendName;
+			var sendLang;
+			var receiveLang;
 
 			//Sends that the user has connected
 			socket.on('connect', function(){
 				//This loads up the beginning modal to get your username
 				username = $.urlParam('name');
-				countryCode = $.urlParam('countCode');
-				country = $.urlParam('country');
-
+				// TODO add in functionality to get other persons name when they connect
+				sendLang = $.urlParam('sendLang');
+				receiveLang = $.urlParam('receiveLang');
 
 				if (username == ""){
-					username = "User";
-				}
-				if (country == ""){
-					country = "United States";
+					username = "Me";
 				}
 
-				socket.emit('notification', username + ' from ' + country + ' has connected');
+				socket.emit('notification', username + ' from ' + receiveLang + ' has connected');
 				socket.emit('userData', {username: username});
 			});
 
@@ -105,7 +103,15 @@
 					message.innerHTML = msg.message;
 				} else {
 					messageCont.setAttribute("class", "incomingMsgCont");
-					$.get('https://api.mymemory.translated.net/get?q=' + msg.message + '!&langpair=en|ru', function(apiRes) {
+					var temp = sendLang;
+					sendLang = receiveLang;
+					receiveLang = temp;
+
+					console.log("sendLang: " + sendLang);
+					console.log("receiveLang: " + receiveLang);
+					var apiLink = 'https://api.mymemory.translated.net/get?q=' + msg.message + '!&langpair=' + sendLang +'|' + receiveLang;
+					console.log("API request link: " + apiLink);
+					$.get(apiLink, function(apiRes) {
 						message.innerHTML = apiRes.matches[0].translation;
 						console.log(apiRes.matches[0].translation);
 					})
