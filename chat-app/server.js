@@ -124,4 +124,3 @@ var port = process.env.PORT || 50005;
 http.listen(port, ipaddress, function(){
 	console.log('Running on 127.0.0.1:50005')
 })
->>>>>>> before discard
