@@ -96,6 +96,9 @@
 				var outputBox = document.getElementById("text-output");
 				var messageCont = document.createElement("div");
 				var message = document.createElement("p");
+				var wrapper = document.createElement("div");
+				wrapper.setAttribute("class", "containerOfContaining");
+				wrapper.append(messageCont);
 				console.log("2");
 
 				if (username == msg.username) {
@@ -122,7 +125,7 @@
 
 				messageCont.append(message);
 
-				outputBox.append(messageCont);
+				outputBox.append(wrapper);
 				outputBox.append(document.createElement("br"));
 				document.getElementById("message-box").value = "";
 
