@@ -9,11 +9,12 @@ function pressedEnter() {
 
 function displayMessage() {
     if (document.getElementById("message-box").value.split(" ").join("") != "") {
+        console.log("asdfsa");
         var outputBox = document.getElementById("text-output");
         var messageCont = document.createElement("div");
         var message = document.createElement("p");
 
-        messageCont.setAttribute("class", "messageCont");
+        messageCont.setAttribute("class", "potato");
         message.setAttribute("class", "message");
 
         message.innerHTML = document.getElementById("message-box").value;
